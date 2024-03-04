@@ -63,7 +63,9 @@ saveRDS(grn, 'grn_REAL_intermediary.rds')
 grn <- readRDS('grn_REAL_intermediary.rds')
 
 grn <- addConnections_peak_gene(grn, nCores = 1)
-grn <- filterGRNAndConnectGenes(grn)
+
+#change FDR threshold
+grn <- filterGRNAndConnectGenes(grn, TF_peak.fdr.threshold = 0.05, forceRerun = TRUE)
 
 conections.all <- getGRNConnections(grn)
 grn <- generateStatsSummary(grn)
@@ -71,6 +73,11 @@ grn <- generateStatsSummary(grn)
 grn  <-  build_eGRN_graph(grn)
 
 grn <- visualizeGRN(grn, maxEdgesToPlot = 5300)
-saveRDS(grn, 'grn_REAL_semifinal.rds')
-grn <- readRDS('grn_REAL_semifinal.rds')
+saveRDS(grn, 'grn_0.05_semifinal.rds')
+#grn <- readRDS('grn_0.05_semifinal.rds')
+
+#network and enrichment analyses for filtered connections
+
+grn <- performAllNetworkAnalyses(grn)
+
 
