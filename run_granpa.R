@@ -37,6 +37,11 @@ p <- add_argument(p, "--output_folder_granpa", help = "Output folder name")
 # Parse the command line arguments
 args <- parse_args(p)
 
+if (n_cores < parallel::detectCores()) {
+   warning("Asking for", n_cores, " on a machine where only ", parallel::detectCores(), " available.\nSetting the n_cores to ", parallel::detectCores())
+  n_cores <- parallel::detectCores()
+}
+
 grn_rds <- readRDS(args$grn_rds)
 de_data <- qread(args$de_data)
 de_pval_th <- args$de_pval_th
@@ -59,6 +64,6 @@ granpa_result = GRaNPA::GRaNPA_main_function(DE_data = de_data,
                                                 control = "cv",
                                                 train_part = 1)
 
-GRaNPA::plot_GRaNPA_density(GRaNPA.object = granpa_result, plot_name = "density.pdf", outputFolder = ".", width = 4, height = 4)
-GRaNPA::plot_GRaNPA_scatter(GRaNPA.object = granpa_result, plot_name = "scatter.pdf", outputFolder = ".", width = 4, height = 4) 
-GRaNPA::plot_GRaNPA_TF_imp(GRaNPA.object = ggranpa_result, plot_name = "TF_imp.pdf", outputFolder = ".", width = 4, height = 4) 
+GRaNPA::plot_GRaNPA_density(GRaNPA.object = granpa_result, plot_name = "density.pdf", outputFolder = output_folder_granpa, width = 4, height = 4)
+GRaNPA::plot_GRaNPA_scatter(GRaNPA.object = granpa_result, plot_name = "scatter.pdf", outputFolder = output_folder_granpa, width = 4, height = 4) 
+GRaNPA::plot_GRaNPA_TF_imp(GRaNPA.object = ggranpa_result, plot_name = "TF_imp.pdf", outputFolder = output_folder_granpa, width = 4, height = 4) 
