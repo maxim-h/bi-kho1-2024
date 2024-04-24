@@ -26,10 +26,11 @@ p <- add_argument(p, "--meta_data", help = "Path to TSV with metadata")
 p <- add_argument(p, "--atac", help = "Path to TSV with atac data")
 p <- add_argument(p, "--rna_seq", help = "Path to RNA seq counts data")
 p <- add_argument(p, "--output_folder", help = "Folder name for output")
-p <- add_argument(p, "--hocomoco_path", help = "Path to hocomoco folder", default = here("PWMScan_HOCOMOCOv12/H12INVIVO"))
+p <- add_argument(p, "--hocomoco_path", help = "Path to hocomoco folder")
 p <- add_argument(p, "--correlation_method",  help = "Correlation method in addConnections_peak_gene", default = "pearson")
 p <- add_argument(p, "--promoter_range", help = "Promoter range in addConnections_peak_gene, bp", default = 250000)
 p <- add_argument(p, "--TF_peak_FDR", help = "FDR threshold in filterGRNAndConnectGenes", default = 0.2)
+p <- add_argument(p, "--n_cores", help = "Number of cores in addConnections_peak_gene and overlapPeaksAndTFBS", default = 2)
 
 # Parse the command line arguments
 args <- parse_args(p)
@@ -43,6 +44,7 @@ hocomoco_path <- args$hocomoco_path
 correlation_method <- args$correlation_method
 promoter_range <- args$promoter_range
 TF_peak_FDR <- args$TF_peak_FDR
+n_cores <- args$n_cores
 
 meta.l = list(name = "GRaNIE", date = now()) 
 
@@ -56,15 +58,15 @@ grn <- plotPCA_all(grn)
 grn <- addTFBS(grn, motifFolder = hocomoco_path, translationTable = 'translationTable.csv',
                translationTable_sep = ' ', fileEnding = '.bed.gz')
 
-grn <- overlapPeaksAndTFBS(grn, nCores = 1)
+grn <- overlapPeaksAndTFBS(grn, nCores = n_cores)
 grn <- addConnections_TF_peak(grn)
 
-grn <- addConnections_peak_gene(grn, corMethod = correlation_method, promoterRange = promoter_range, nCores = 1) 
+grn <- addConnections_peak_gene(grn, corMethod = correlation_method, promoterRange = promoter_range, nCores = n_cores) 
 
 saveRDS(grn, here(output_folder, 'grn_unfiltered.rds'))
 
 #change FDR threshold
-grn <- filterGRNAndConnectGenes(grn, TF_peak.fdr.threshold = 0.05, forceRerun = FALSE)
+grn <- filterGRNAndConnectGenes(grn, TF_peak.fdr.threshold = TF_peak_FDR, forceRerun = FALSE)
 
 conections.all <- getGRNConnections(grn)
 grn <- generateStatsSummary(grn)
