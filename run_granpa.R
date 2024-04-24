@@ -26,6 +26,8 @@ suppressPackageStartupMessages({
 
 here()
 
+p <- arg_parser("Run GRaNPA")
+
 p <- add_argument(p, "--grn_rds", help = "Path to GRaNIE rds", default = here("granie_output"))
 p <- add_argument(p, "--de_data", help = "Path to diff expr data for validation", default = here("folder_name"))
 p <- add_argument(p, "--de_pval_th", help = "P-value threshold for DE", default = 0.2)
@@ -38,12 +40,7 @@ p <- add_argument(p, "--output_folder_granpa", help = "Output folder name")
 # Parse the command line arguments
 args <- parse_args(p)
 
-if (n_cores < parallel::detectCores()) {
-   warning("Asking for", n_cores, " on a machine where only ", parallel::detectCores(), " available.\nSetting the n_cores to ", parallel::detectCores())
-  n_cores <- parallel::detectCores()
-}
-
-grn_rds <- readRDS(args$grn_rds)
+grn_rds <- getGRNConnections(readRDS(args$grn_rds))
 de_data <- qread(args$de_data)
 de_pval_th <- args$de_pval_th
 logFC_th <- args$logFC_th
@@ -52,18 +49,38 @@ importance_tf <- args$importance_tf
 ml_type <- args$ml_type
 output_folder_granpa <- args$output_folder_granpa
 
+names(de_data)[names(de_data) == "avg_log2FC"] <- "logFC"
+names(de_data)[names(de_data) == "p_val_adj"] <- "padj"
+
+de_data <- de_data %>% 
+  rownames_to_column(var = "SYMBOL")
+
+#convert to ENSEMBL IDs
+de_data$SYMBOL = mapIds(org.Hs.eg.db,
+                     keys=de_data$SYMBOL, 
+                     column="ENSEMBL",
+                     keytype="SYMBOL",
+                     multiVals="first")
+
+names(de_data)[names(de_data) == "SYMBOL"] <- "ENSEMBL"
+
+if (n_cores < parallel::detectCores()) {
+  warning("Asking for", n_cores, " on a machine where only ", parallel::detectCores(), " available.\nSetting the n_cores to ", parallel::detectCores())
+  n_cores <- parallel::detectCores()
+}
+
 granpa_result = GRaNPA::GRaNPA_main_function(DE_data = de_data, 
-                                                GRN_matrix_filtered = grn_rds,
-                                                DE_pvalue_th = de_pval_th,
-                                                logFC_th = logFC_th,
-                                                num_run = 3,
-                                                num_run_CR = 2,
-                                                num_run_random = 3,
-                                                cores = n_cores,
-                                                importance = importance_tf,
-                                                ML_type = ml_type,
-                                                control = "cv",
-                                                train_part = 1)
+                                             GRN_matrix_filtered = grn_rds,
+                                             DE_pvalue_th = de_pval_th,
+                                             logFC_th = logFC_th,
+                                             num_run = 3,
+                                             num_run_CR = 2,
+                                             num_run_random = 3,
+                                             cores = n_cores,
+                                             importance = importance_tf,
+                                             ML_type = ml_type,
+                                             control = "cv",
+                                             train_part = 1)
 
 GRaNPA::plot_GRaNPA_density(GRaNPA.object = granpa_result, plot_name = "density.pdf", outputFolder = output_folder_granpa, width = 4, height = 4)
 GRaNPA::plot_GRaNPA_scatter(GRaNPA.object = granpa_result, plot_name = "scatter.pdf", outputFolder = output_folder_granpa, width = 4, height = 4) 
