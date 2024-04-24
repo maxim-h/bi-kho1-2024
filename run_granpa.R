@@ -84,4 +84,4 @@ granpa_result = GRaNPA::GRaNPA_main_function(DE_data = de_data,
 
 GRaNPA::plot_GRaNPA_density(GRaNPA.object = granpa_result, plot_name = "density.pdf", outputFolder = output_folder_granpa, width = 4, height = 4)
 GRaNPA::plot_GRaNPA_scatter(GRaNPA.object = granpa_result, plot_name = "scatter.pdf", outputFolder = output_folder_granpa, width = 4, height = 4) 
-GRaNPA::plot_GRaNPA_TF_imp(GRaNPA.object = ggranpa_result, plot_name = "TF_imp.pdf", outputFolder = output_folder_granpa, width = 4, height = 4) 
+GRaNPA::plot_GRaNPA_TF_imp(GRaNPA.object = granpa_result, plot_name = "TF_imp.pdf", outputFolder = output_folder_granpa, width = 4, height = 4) 
