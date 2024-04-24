@@ -31,8 +31,8 @@ p <- add_argument(p, "--de_data", help = "Path to diff expr data for validation"
 p <- add_argument(p, "--de_pval_th", help = "P-value threshold for DE", default = 0.2)
 p <- add_argument(p, "--logFC_th", help = "LogFC threshold for DE", default = 0)
 p <- add_argument(p, "--n_cores", help = "Number of cores", default = 10)
-p <- add_argument(p, "--importance_tf", help = "Algorithm for finding most important TFs", default = permutation)
-p <- add_argument(p, "--ml_type", help = "Regression or classification", default = regression)
+p <- add_argument(p, "--importance_tf", help = "Algorithm for finding most important TFs", default = "permutation")
+p <- add_argument(p, "--ml_type", help = "Regression or classification", default = "regression")
 p <- add_argument(p, "--output_folder_granpa", help = "Output folder name")
 
 # Parse the command line arguments
