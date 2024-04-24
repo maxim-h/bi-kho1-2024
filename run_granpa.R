@@ -22,6 +22,7 @@ suppressPackageStartupMessages({
   library("AnnotationDbi")
   library("org.Hs.eg.db")
   library("qs")
+  library(ggplot2)
 })
 
 here()
@@ -49,6 +50,8 @@ importance_tf <- args$importance_tf
 ml_type <- args$ml_type
 output_folder_granpa <- args$output_folder_granpa
 
+dir.create(output_folder_granpa)
+
 names(de_data)[names(de_data) == "avg_log2FC"] <- "logFC"
 names(de_data)[names(de_data) == "p_val_adj"] <- "padj"
 
@@ -65,7 +68,7 @@ de_data$SYMBOL = mapIds(org.Hs.eg.db,
 names(de_data)[names(de_data) == "SYMBOL"] <- "ENSEMBL"
 
 if (n_cores < parallel::detectCores()) {
-  warning("Asking for", n_cores, " on a machine where only ", parallel::detectCores(), " available.\nSetting the n_cores to ", parallel::detectCores())
+  warning("Asking for ", n_cores, " on a machine where ", parallel::detectCores(), " available.\nSetting the n_cores to ", parallel::detectCores())
   n_cores <- parallel::detectCores()
 }
 
@@ -82,6 +85,8 @@ granpa_result = GRaNPA::GRaNPA_main_function(DE_data = de_data,
                                              control = "cv",
                                              train_part = 1)
 
+saveRDS(granpa_result, here(output_folder_granpa, "granpa.rds"))
 GRaNPA::plot_GRaNPA_density(GRaNPA.object = granpa_result, plot_name = "density.pdf", outputFolder = output_folder_granpa, width = 4, height = 4)
 GRaNPA::plot_GRaNPA_scatter(GRaNPA.object = granpa_result, plot_name = "scatter.pdf", outputFolder = output_folder_granpa, width = 4, height = 4) 
 GRaNPA::plot_GRaNPA_TF_imp(GRaNPA.object = granpa_result, plot_name = "TF_imp.pdf", outputFolder = output_folder_granpa, width = 4, height = 4) 
+
