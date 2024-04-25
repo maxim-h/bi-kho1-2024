@@ -1,19 +1,19 @@
 #!/usr/bin/env Rscript
 
 suppressPackageStartupMessages({
-library(WGCNA)
-library(tidyverse)
-library(GRaNIE)
-library(biomaRt)
-library(data.table)
-library(R.utils)
-library(BSgenome.Hsapiens.UCSC.hg38)
-library(TxDb.Hsapiens.UCSC.hg38.knownGene)
-library(BSgenome.Hsapiens.UCSC.hg38)
-library(ChIPseeker)
-library(argparser)
-library(here)
-library(lubridate)
+  library(WGCNA)
+  library(tidyverse)
+  library(GRaNIE)
+  library(biomaRt)
+  library(data.table)
+  library(R.utils)
+  library(BSgenome.Hsapiens.UCSC.hg38)
+  library(TxDb.Hsapiens.UCSC.hg38.knownGene)
+  library(BSgenome.Hsapiens.UCSC.hg38)
+  library(ChIPseeker)
+  library(argparser)
+  library(here)
+  library(lubridate)
 })
 
 here() #takes parameters to join into a path
@@ -51,7 +51,7 @@ meta.l = list(name = "GRaNIE", date = now())
 GRN <- initializeGRN(objectMetadata = meta.l, outputFolder = output_folder, genomeAssembly = "hg38")
 
 grn <- addData(GRN, sampleMetadata = meta_data, counts_peaks = atac, normalization_peaks = "none", 
-        counts_rna = rna_seq, normalization_rna = "none")
+               counts_rna = rna_seq, normalization_rna = "none")
 
 ####QC
 grn <- plotPCA_all(grn)
@@ -75,12 +75,8 @@ grn  <-  build_eGRN_graph(grn)
 
 grn <- visualizeGRN(grn, maxEdgesToPlot = 5300)
 
-saveRDS(grn, here(output_folder, "grn_semifinal.rds"))
+saveRDS(grn, here(output_folder, "grn.rds"))
 
 #network and enrichment analyses for filtered connections
 
 grn <- performAllNetworkAnalyses(grn)
-
-###add granpa and other validations as a separate script!
-###current output folder will serve as input for that
-
