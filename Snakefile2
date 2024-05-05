@@ -1,0 +1,29 @@
+branch_list = ['br1', 'br2', 'br3']
+de_list = ['de1', 'de2', 'de3']
+
+rule all:
+    input:
+        expand('{branch}_de_{de}_granpa/{branch}_de_{de}_granpa.rds', branch=branch_list, de=de_list)
+
+rule get_grn_from_tsv:
+    input:
+        '{branch}_atac.tsv',
+        '{branch}_rna.tsv',
+        'metadata.tsv'
+    conda:
+        'r_many_packages'
+    output:
+        '{branch}/{branch}_grn.rds'
+    shell:
+        './granie_parser.R --meta_data metadata.tsv --atac {wildcards.branch}_atac.tsv --rna_seq {wildcards.branch}_rna.tsv --output_folder {wildcards.branch} --branch {wildcards.branch} --correlation_method pearson --promoter_range 250000 --TF_peak_FDR 0.2'
+
+rule get_granpa_from_grn_and_de:
+    input:
+        '{branch}/{branch}_grn.rds',
+        'de_{de}.qs'
+    conda:
+        'r_many_packages'
+    output:
+        '{branch}_de_{de}_granpa/{branch}_de_{de}_granpa.rds'
+    shell:
+        './granpa_parser.R --grn_rds {wildcards.branch}/{wildcards.branch}_grn.rds --de_data de_{wildcards.de}.qs --de_pval_th 0.2 --logFC_th 0 --branch {wildcards.branch} --n_cores 10 --importance_tf "permutation" --ml_type "regression" --output_folder_granpa {wildcards.branch}_de_{wildcards.de}_granpa'
