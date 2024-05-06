@@ -29,7 +29,8 @@ p <- add_argument(p, "--output_folder", help = "Folder name for output")
 p <- add_argument(p, "--hocomoco_path", help = "Path to hocomoco folder")
 p <- add_argument(p, "--correlation_method",  help = "Correlation method in addConnections_peak_gene", default = "pearson")
 p <- add_argument(p, "--promoter_range", help = "Promoter range in addConnections_peak_gene, bp", default = 250000)
-p <- add_argument(p, "--TF_peak_FDR", help = "FDR threshold in filterGRNAndConnectGenes", default = 0.2)
+p <- add_argument(p, "--TF_peak_FDR", help = "TF FDR threshold in filterGRNAndConnectGenes", default = 0.2)
+p <- add_argument(p, "--peak_gene_FDR", help = "Peak gene FDR threshold in filterGRNAndConnectGenes", default = 0.2)
 p <- add_argument(p, "--n_cores", help = "Number of cores in addConnections_peak_gene and overlapPeaksAndTFBS", default = 2)
 
 # Parse the command line arguments
@@ -44,6 +45,7 @@ hocomoco_path <- args$hocomoco_path
 correlation_method <- args$correlation_method
 promoter_range <- args$promoter_range
 TF_peak_FDR <- args$TF_peak_FDR
+peak_gene_FDR <- args$peak_gene_FDR
 n_cores <- args$n_cores
 
 meta.l = list(name = "GRaNIE", date = now()) 
@@ -66,7 +68,7 @@ grn <- addConnections_peak_gene(grn, corMethod = correlation_method, promoterRan
 saveRDS(grn, here(output_folder, 'grn_unfiltered.rds'))
 
 #change FDR threshold
-grn <- filterGRNAndConnectGenes(grn, TF_peak.fdr.threshold = TF_peak_FDR, forceRerun = FALSE)
+grn <- filterGRNAndConnectGenes(grn, TF_peak.fdr.threshold = TF_peak_FDR, peak_gene.fdr.threshold = peak_gene_FDR, forceRerun = FALSE)
 
 conections.all <- getGRNConnections(grn)
 grn <- generateStatsSummary(grn)
