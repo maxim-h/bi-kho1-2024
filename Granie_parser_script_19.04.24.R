@@ -32,6 +32,7 @@ p <- add_argument(p, "--promoter_range", help = "Promoter range in addConnection
 p <- add_argument(p, "--TF_peak_FDR", help = "TF FDR threshold in filterGRNAndConnectGenes", default = 0.2)
 p <- add_argument(p, "--peak_gene_FDR", help = "Peak gene FDR threshold in filterGRNAndConnectGenes", default = 0.2)
 p <- add_argument(p, "--n_cores", help = "Number of cores in addConnections_peak_gene and overlapPeaksAndTFBS", default = 2)
+p <- add_argument(p, "--cluster_resolution", help = "Single cell cluster resolution")
 
 # Parse the command line arguments
 args <- parse_args(p)
@@ -47,6 +48,7 @@ promoter_range <- args$promoter_range
 TF_peak_FDR <- args$TF_peak_FDR
 peak_gene_FDR <- args$peak_gene_FDR
 n_cores <- args$n_cores
+cluster_resolution <- args$cluster_resolution
 
 meta.l = list(name = "GRaNIE", date = now()) 
 
