@@ -44,6 +44,15 @@ mean_rsquared_list <- lapply(data_list, function(granpa_rds) {
   mean(rsquared_values)
 })
 
+mean_rsquared_list <- lapply(data_list, function(granpa_rds) {
+  if (is.null(granpa_rds)) {
+    NA  
+  } else {
+    rsquared_values <- granpa_rds[["normal_models"]][[1]][["results"]][["Rsquared"]]
+    mean(rsquared_values)
+  }
+})
+
 mean_rsquared_vector <- unlist(mean_rsquared_list)
 
 filenames <- basename(granpa_rds_list)
