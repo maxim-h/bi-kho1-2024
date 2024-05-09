@@ -70,7 +70,7 @@ Y <- (data$TF_FDR)
 
 plot <- ggplot(data, aes(x=X, y=Y, fill= data$Rsq)) + 
   geom_tile() + labs (x="gene_FDR", y="TF_FDR", fill="Rsq" ) +
-  facet_grid(.~data$correlation + data$promoter_range)
+  facet_grid(vars(promoter_range), vars(correlation))
 
 ggsave(here(output_folder,"parameters.pdf"), plot = plot, width = 8, height = 6)
   
