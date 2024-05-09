@@ -1,0 +1,31 @@
+
+branches:
+  traj1
+
+de:
+  de1
+  de3
+
+res:
+  0.5
+  2
+  5
+  10
+  15
+  20
+
+tf_peak_fdr:
+  0.05
+  0.1
+  0.2
+  0.3
+
+prom_range:
+  50000
+  100000
+  1000000
+
+cormethod:
+  pearson
+  spearman
+  bicor

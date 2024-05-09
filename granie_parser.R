@@ -30,7 +30,8 @@ p <- add_argument(p, "--hocomoco_path", help = "Path to hocomoco folder", defaul
 p <- add_argument(p, "--correlation_method",  help = "Correlation method in addConnections_peak_gene", default = "pearson")
 p <- add_argument(p, "--promoter_range", help = "Promoter range in addConnections_peak_gene, bp", default = 250000)
 p <- add_argument(p, "--TF_peak_FDR", help = "FDR threshold in filterGRNAndConnectGenes", default = 0.2)
-p <- add_argument(p, "--n_cores", help = "Number of cores in addConnections_peak_gene and overlapPeaksAndTFBS", default = 2)
+p <- add_argument(p, "--n_cores", help = "Number of cores in addConnections_peak_gene and overlapPeaksAndTFBS", default = 36)
+p <- add_argument(p, "--res", help = "Clustering resolution")
 
 # Parse the command line arguments
 args <- parse_args(p)
@@ -82,4 +83,8 @@ grn <- performAllNetworkAnalyses(grn)
 ###add granpa and other validations as a separate script!
 ###current output folder will serve as input for that
 
-saveRDS(grn, here(output_folder, paste(branch, 'grn.rds', sep='_')))
+res <- paste('res', args$res, sep='')
+corr_method <- paste('cormethod', correlation_method, sep='_')
+tf_peak_fdr <- paste('tf-peak-fdr', TF_peak_FDR, sep='_')
+prom_range <- paste('prom-range', promoter_range, sep='_')
+saveRDS(grn, here(output_folder, paste(branch, res, corr_method, tf_peak_fdr, prom_range, 'grn.rds', sep='_')))

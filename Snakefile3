@@ -1,0 +1,25 @@
+configfile: 'config2.yaml'
+
+branch_list = config['branches'].split(' ')
+de_list = config['de'].split(' ')
+res_list = config['res'].split(' ')
+cormethod_list = config['cormethod'].split(' ')
+tf_peak_fdr_list = config['tf_peak_fdr'].split(' ')
+prom_range_list = config['prom_range'].split(' ')
+
+rule all:
+    input:
+        expand('{branch}/{branch}_res{res}_cormethod_{cormethod}_tf-peak-fdr_{tf_peak_fdr}_prom-range_{prom_range}_grn.rds', branch=branch_list, res=res_list, cormethod=cormethod_list, tf_peak_fdr=tf_peak_fdr_list, prom_range=prom_range_list)
+
+rule get_grn_from_tsv:
+    input:
+        '{branch}_atac.pseudobulkFromClusters_res{res}_mean.tsv.gz',
+        '{branch}_rna.pseudobulkFromClusters_res{res}_mean.tsv.gz',
+        '{branch}_metadata_res{res}_mean.tsv.gz'
+    conda:
+        'r_many_packages'
+    output:
+        '{branch}/{branch}_res{res}_cormethod_{cormethod}_tf-peak-fdr_{tf_peak_fdr}_prom-range_{prom_range}_grn.rds'
+    shell:
+        './granie_parser.R --meta_data {wildcards.branch}_metadata_res{wildcards.res}_mean.tsv.gz --atac {wildcards.branch}_atac.pseudobulkFromClusters_res{wildcards.res}_mean.tsv.gz --rna_seq {wildcards.branch}_rna.pseudobulkFromClusters_res{wildcards.res}_mean.tsv.gz --output_folder {wildcards.branch} --branch {wildcards.branch} --correlation_method {wildcards.cormethod} --promoter_range {wildcards.prom_range} --TF_peak_FDR {wildcards.tf_peak_fdr} --res {wildcards.res} --n_cores 48'
+
