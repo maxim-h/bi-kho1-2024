@@ -73,6 +73,12 @@ saveRDS(grn, here(output_folder, 'grn_unfiltered.rds'))
 grn <- filterGRNAndConnectGenes(grn, TF_peak.fdr.threshold = TF_peak_FDR, peak_gene.fdr.threshold = peak_gene_FDR, forceRerun = FALSE)
 
 conections.all <- getGRNConnections(grn)
+
+if (nrow(conections.all) == 0) {
+  print("Connections are empty. Creating NA vector.")
+  na_vector <- rep(NA, 5) 
+} else {}
+
 grn <- generateStatsSummary(grn)
 
 grn  <-  build_eGRN_graph(grn)
