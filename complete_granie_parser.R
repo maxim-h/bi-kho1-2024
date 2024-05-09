@@ -85,7 +85,7 @@ if (nrow(conections.all) == 0) {
   saveRDS(NULL, here(output_folder, paste(branch, res, corr_method, tf_peak_fdr, peak_gene_fdr, prom_range, 'grn.rds', sep='_')))
 } else {
   grn <- generateStatsSummary(grn)
-  grn  <-  build_eGRN_graph(grn)
+  grn <- build_eGRN_graph(grn)
   grn <- visualizeGRN(grn, maxEdgesToPlot = 5300)
   #network and enrichment analyses for filtered connections
   grn <- performAllNetworkAnalyses(grn)
