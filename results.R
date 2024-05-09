@@ -53,7 +53,7 @@ filenames <- basename(granpa_rds_list)
 data <- data.frame(
   sample=filenames,
   TF_FDR=TF_peak_FDR_list,
-  gene_FDR=peak_gene_FDR_list,
+  gene_FDR=as.factor(peak_gene_FDR_list),
   correlation=correlation_list,
   promoter_range=promoter_range_list,
   tf_database=tf_database_list,
@@ -65,11 +65,9 @@ data <- read.csv("result_summary.csv")
 
 ####ggplot2 heatmap
 
-X <- as.factor(data$gene_FDR)
-Y <- (data$TF_FDR)
-
-plot <- ggplot(data, aes(x=X, y=Y, fill= data$Rsq)) + 
-  geom_tile() + labs (x="gene_FDR", y="TF_FDR", fill="Rsq" ) +
+plot <- ggplot(data, aes(x=gene_FDR, y=TF_FDR, fill= Rsq))+ 
+  geom_tile()+ 
+  labs(x="gene_FDR", y="TF_FDR", fill="Rsq")+
   facet_grid(vars(promoter_range), vars(correlation))
 
 ggsave(here(output_folder,"parameters.pdf"), plot = plot, width = 8, height = 6)
