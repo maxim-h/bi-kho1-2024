@@ -41,52 +41,60 @@ p <- add_argument(p, "--output_folder_granpa", help = "Output folder name")
 # Parse the command line arguments
 args <- parse_args(p)
 
-grn_rds <- getGRNConnections(readRDS(args$grn_rds))
-de_data <- qread(args$de_data)
-de_pval_th <- args$de_pval_th
-logFC_th <- args$logFC_th
-n_cores <- args$n_cores
-importance_tf <- args$importance_tf
-ml_type <- args$ml_type
 output_folder_granpa <- args$output_folder_granpa
+grn_results <- readRDS(args$grn_rds)
+if (is.null(grn_results)) {
+  saveRDS(NULL, file = here(output_folder_granpa, "granpa.rds"))
+} else {
+  
+  grn_rds <- getGRNConnections(grn_results)
 
-dir.create(output_folder_granpa)
+  de_data <- qread(args$de_data)
+  de_pval_th <- args$de_pval_th
+  logFC_th <- args$logFC_th
+  n_cores <- args$n_cores
+  importance_tf <- args$importance_tf
+  ml_type <- args$ml_type
 
-names(de_data)[names(de_data) == "avg_log2FC"] <- "logFC"
-names(de_data)[names(de_data) == "p_val_adj"] <- "padj"
 
-de_data <- de_data %>% 
-  rownames_to_column(var = "SYMBOL")
+  dir.create(output_folder_granpa)
+
+  names(de_data)[names(de_data) == "avg_log2FC"] <- "logFC"
+  names(de_data)[names(de_data) == "p_val_adj"] <- "padj"
+
+  de_data <- de_data %>% 
+    rownames_to_column(var = "SYMBOL")
 
 #convert to ENSEMBL IDs
-de_data$SYMBOL = mapIds(org.Hs.eg.db,
-                     keys=de_data$SYMBOL, 
-                     column="ENSEMBL",
-                     keytype="SYMBOL",
-                     multiVals="first")
+  de_data$SYMBOL = mapIds(org.Hs.eg.db,
+                          keys=de_data$SYMBOL,
+                          column="ENSEMBL",
+                          keytype="SYMBOL",
+                          multiVals="first")
 
-names(de_data)[names(de_data) == "SYMBOL"] <- "ENSEMBL"
+  names(de_data)[names(de_data) == "SYMBOL"] <- "ENSEMBL"
 
-if (n_cores < parallel::detectCores()) {
-  warning("Asking for ", n_cores, " on a machine where ", parallel::detectCores(), " available.\nSetting the n_cores to ", parallel::detectCores())
-  n_cores <- parallel::detectCores()
-}
+  if (n_cores < parallel::detectCores()) {
+    warning("Asking for ", n_cores, " on a machine where ", parallel::detectCores(), " available.\nSetting the n_cores to ", parallel::detectCores())
+    n_cores <- parallel::detectCores()
+  }
 
-granpa_result = GRaNPA::GRaNPA_main_function(DE_data = de_data, 
-                                             GRN_matrix_filtered = grn_rds,
-                                             DE_pvalue_th = de_pval_th,
-                                             logFC_th = logFC_th,
-                                             num_run = 3,
-                                             num_run_CR = 2,
-                                             num_run_random = 3,
-                                             cores = n_cores,
-                                             importance = importance_tf,
-                                             ML_type = ml_type,
-                                             control = "cv",
-                                             train_part = 1)
+  granpa_result = GRaNPA::GRaNPA_main_function(DE_data = de_data,
+                                               GRN_matrix_filtered = grn_rds,
+                                               DE_pvalue_th = de_pval_th,
+                                               logFC_th = logFC_th,
+                                               num_run = 3,
+                                               num_run_CR = 2,
+                                               num_run_random = 3,
+                                               cores = n_cores,
+                                               importance = importance_tf,
+                                               ML_type = ml_type,
+                                               control = "cv",
+                                               train_part = 1)
 
-saveRDS(granpa_result, here(output_folder_granpa, "granpa.rds"))
-GRaNPA::plot_GRaNPA_density(GRaNPA.object = granpa_result, plot_name = "density.pdf", outputFolder = output_folder_granpa, width = 4, height = 4)
+
+  saveRDS(granpa_result, here(output_folder_granpa, "granpa.rds"))
+  GRaNPA::plot_GRaNPA_density(GRaNPA.object = granpa_result, plot_name = "density.pdf", outputFolder = output_folder_granpa, width = 4, height = 4) }
 GRaNPA::plot_GRaNPA_scatter(GRaNPA.object = granpa_result, plot_name = "scatter.pdf", outputFolder = output_folder_granpa, width = 4, height = 4) 
 GRaNPA::plot_GRaNPA_TF_imp(GRaNPA.object = granpa_result, plot_name = "TF_imp.pdf", outputFolder = output_folder_granpa, width = 4, height = 4) 
 
