@@ -76,7 +76,7 @@ conections.all <- getGRNConnections(grn)
 
 if (nrow(conections.all) == 0) {
   print("Connections are empty. Creating NA vector.")
-  na_vector <- rep(NA, 5) 
+  conections.all <- NULL
 } else {}
 
 grn <- generateStatsSummary(grn)
