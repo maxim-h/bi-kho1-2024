@@ -75,9 +75,9 @@ grn <- filterGRNAndConnectGenes(grn, TF_peak.fdr.threshold = TF_peak_FDR, peak_g
 conections.all <- getGRNConnections(grn)
 
 if (nrow(conections.all) == 0) {
-  print("Connections are empty. Creating NA vector.")
-  conections.all <- NULL
-} else {}
+  print("Connections are empty.")
+  saveRDS(NULL, here(output_folder, "null.rds"))
+} else {
 
 grn <- generateStatsSummary(grn)
 
@@ -89,4 +89,5 @@ saveRDS(grn, here(output_folder, "grn.rds"))
 
 #network and enrichment analyses for filtered connections
 
-grn <- performAllNetworkAnalyses(grn)
+grn <- performAllNetworkAnalyses(grn) }
+
