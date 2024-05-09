@@ -78,16 +78,10 @@ if (nrow(conections.all) == 0) {
   print("Connections are empty.")
   saveRDS(NULL, here(output_folder, "null.rds"))
 } else {
-
-grn <- generateStatsSummary(grn)
-
-grn  <-  build_eGRN_graph(grn)
-
-grn <- visualizeGRN(grn, maxEdgesToPlot = 5300)
-
-saveRDS(grn, here(output_folder, "grn.rds"))
-
-#network and enrichment analyses for filtered connections
-
-grn <- performAllNetworkAnalyses(grn) }
+  grn <- generateStatsSummary(grn)
+  grn  <-  build_eGRN_graph(grn)
+  grn <- visualizeGRN(grn, maxEdgesToPlot = 5300)
+  saveRDS(grn, here(output_folder, "grn.rds"))
+  #network and enrichment analyses for filtered connections
+  grn <- performAllNetworkAnalyses(grn) }
 
