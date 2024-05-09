@@ -40,11 +40,6 @@ dir.create(output_folder, showWarnings = FALSE)
 data_list <- lapply(granpa_rds_list, readRDS)
 
 mean_rsquared_list <- lapply(data_list, function(granpa_rds) {
-  rsquared_values <- granpa_rds[["normal_models"]][[1]][["results"]][["Rsquared"]]
-  mean(rsquared_values)
-})
-
-mean_rsquared_list <- lapply(data_list, function(granpa_rds) {
   if (is.null(granpa_rds)) {
     NA  
   } else {
