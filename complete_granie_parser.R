@@ -74,9 +74,15 @@ grn <- filterGRNAndConnectGenes(grn, TF_peak.fdr.threshold = TF_peak_FDR,
 
 conections.all <- getGRNConnections(grn)
 
+res <- paste('res', args$res, sep='')
+corr_method <- paste('cormethod', correlation_method, sep='_')
+tf_peak_fdr <- paste('tf-peak-fdr', TF_peak_FDR, sep='_')
+peak_gene_fdr <- paster('peak_gene_fdr', peak_gene_FDR, sep='_')
+prom_range <- paste('prom-range', promoter_range, sep='_')
+
 if (nrow(conections.all) == 0) {
   print("Connections are empty.")
-  saveRDS(NULL, here(output_folder, paste(branch, res, corr_method, tf_peak_fdr, prom_range, 'grn.rds', sep='_')))
+  saveRDS(NULL, here(output_folder, paste(branch, res, corr_method, tf_peak_fdr, peak_gene_fdr, prom_range, 'grn.rds', sep='_')))
 } else {
   grn <- generateStatsSummary(grn)
   grn  <-  build_eGRN_graph(grn)
@@ -84,8 +90,5 @@ if (nrow(conections.all) == 0) {
   #network and enrichment analyses for filtered connections
   grn <- performAllNetworkAnalyses(grn)
   
-  res <- paste('res', args$res, sep='')
-  corr_method <- paste('cormethod', correlation_method, sep='_')
-  tf_peak_fdr <- paste('tf-peak-fdr', TF_peak_FDR, sep='_')
-  prom_range <- paste('prom-range', promoter_range, sep='_')
-  saveRDS(grn, here(output_folder, paste(branch, res, corr_method, tf_peak_fdr, prom_range, 'grn.rds', sep='_'))) }
+
+  saveRDS(grn, here(output_folder, paste(branch, res, corr_method, tf_peak_fdr, peak_gene_fdr, prom_range, 'grn.rds', sep='_'))) }
