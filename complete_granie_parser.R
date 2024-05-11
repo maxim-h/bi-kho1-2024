@@ -77,7 +77,7 @@ conections.all <- getGRNConnections(grn)
 res <- paste('res', args$res, sep='')
 corr_method <- paste('cormethod', correlation_method, sep='_')
 tf_peak_fdr <- paste('tf-peak-fdr', TF_peak_FDR, sep='_')
-peak_gene_fdr <- paster('peak_gene_fdr', peak_gene_FDR, sep='_')
+peak_gene_fdr <- paste('peak_gene_fdr', peak_gene_FDR, sep='_')
 prom_range <- paste('prom-range', promoter_range, sep='_')
 
 if (nrow(conections.all) == 0) {
