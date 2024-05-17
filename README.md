@@ -1,5 +1,7 @@
 This repository contains scripts for GRaNIE and GRaNPA (https://www.bioconductor.org/packages/release/bioc/html/GRaNIE.html) snakemake pipeline.
 
+## GRaNIE
+
 ```
 run_granie.R
 ```
@@ -36,6 +38,8 @@ This is a GRaNIE parser script that takes ATAC-seq, RNA-seq and metadata files a
 Rscript run_granie.R --atac data/atac.tsv --rna_seq data/rna_seq_counts.tsv --output_folder results_granie --branch B_cell --res 0.5
 ```
 
+## GRaNPA
+
 ```
 run_granpa.R
 ```
@@ -67,7 +71,7 @@ Rscript run_granpa.R --grn_rds results_granie/granie_output.rds --de_data data/d
 ```
 
 
-# Snakemake pipeline
+## Snakemake pipeline
 
 This snakemake pipeline includes `run_granie.R`, `run_granpa.R` and `summarise_results.R` to process multiple files with different parameters and creates a heatmap that shows resulting `Rsquared` values. The parameters are provided in `config2.yaml` file.
  
