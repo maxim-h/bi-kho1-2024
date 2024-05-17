@@ -71,35 +71,6 @@ Rscript run_granpa.R --grn_rds results_granie/granie_output.rds --de_data data/d
 
 This snakemake pipeline includes `run_granie.R`, `run_granpa.R` and `summarise_results.R` to process multiple files with different parameters and creates a heatmap that shows resulting `Rsquared` values. The parameters are provided in `config2.yaml` file.
  
-### Example config file
-
-```python
-branches:
-traj1
-de:
-de1
-de3
-res:
-0.5
-2
-5
-10
-15
-20'
-tf_peak_fdr:
-0.05
-0.1
-0.2
-0.3
-prom_range:
-50000
-100000
-1000000
-cormethod:
-pearson
-spearman
-bicor
-```
 
 
 
