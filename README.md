@@ -1,4 +1,4 @@
-This repository contains scripts for GRaNIE and GRaNPA (https://www.bioconductor.org/packages/release/bioc/html/GRaNIE.html) snakemake pipeline.
+This repository contains scripts for GRaNIE and GRaNPA https://www.bioconductor.org/packages/release/bioc/html/GRaNIE.html snakemake pipeline.
 
 ## GRaNIE
 
