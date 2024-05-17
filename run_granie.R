@@ -87,7 +87,6 @@ if (nrow(conections.all) == 0) {
   grn <- generateStatsSummary(grn)
   grn <- build_eGRN_graph(grn)
   grn <- visualizeGRN(grn, maxEdgesToPlot = 5300)
-  #network and enrichment analyses for filtered connections
   grn <- performAllNetworkAnalyses(grn)
   
 
