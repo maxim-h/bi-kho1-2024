@@ -69,7 +69,7 @@ Rscript run_granpa.R --grn_rds results_granie/granie_output.rds --de_data data/d
 
 # Snakemake pipeline
 
-This snakemake pipeline includes `run_granie.R`, `run_granpa.R` and `summarise_results.R` to process multiple files with different parameters and creates a heatmap that shows resulting R^2 values. The parameters are provided in `config2.yaml` file.
+This snakemake pipeline includes `run_granie.R`, `run_granpa.R` and `summarise_results.R` to process multiple files with different parameters and creates a heatmap that shows resulting `Rsquared` values. The parameters are provided in `config2.yaml` file.
  
 ### Example config file
 
