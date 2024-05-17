@@ -70,6 +70,28 @@ This is a GRaNPA parser script that takes the `.rds` file from `run_granie.R` as
 Rscript run_granpa.R --grn_rds results_granie/granie_output.rds --de_data data/differential_expression.tsv --output_folder_granpa results --branch B_cell
 ```
 
+## Results
+
+```
+summarise_results.R
+```
+
+This script takes `.rds` files from `run_granpa.R` and corresponding parameters as comma-separated lists and creates a heatmap to visualise how `Rsquared` value depends on the parameters: 
+
+`--granpa_rds_list` Comma-separated list of GRaNPA rds files
+
+`--TF_peak_FDR_list` Comma-separated list of corresponding TF peak FDRs
+
+`--peak_gene_FDR_list` Comma-separated list of corresponding peak gene FDRs
+
+`--correlation_list` Comma-separated list of corresponding correlation methods
+
+`--promoter_range_list` Comma-separated list of corresponding promoter ranges
+
+`--tf_database_list` Comma-separated list of TF databases
+
+`--output_folder` Folder name for output
+
 
 ## Snakemake pipeline
 
