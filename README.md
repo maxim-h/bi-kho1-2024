@@ -7,16 +7,27 @@ run_granie.R
 This is a GRaNIE parser script that takes ATAC-seq, RNA-seq and metadata files as input allowing to vary the parameters:
 
 `--meta_data`          Path to TSV with metadata
+
 `--atac`               Path to TSV with ATAC data
+
 `--rna_seq`            Path to RNA seq counts data
+
 `--output_folder`      Folder name for output
+
 `--branch`             Branch name
+
 `--hocomoco_path`      Path to HOCOMOCO folder (Default: PWMScan_HOCOMOCOv12/H12INVIVO)
+
 `--correlation_method` Correlation method in addConnections_peak_gene (Default: pearson)
+
 `--promoter_range`     Promoter range in addConnections_peak_gene, bp (Default: 250000)
+
 `--TF_peak_FDR`        FDR threshold in filterGRNAndConnectGenes (Default: 0.2)
+
 `--peak_gene_FDR`      Peak gene FDR threshold in filterGRNAndConnectGenes (Default: 0.2)
+
 `--n_cores`            Number of cores in addConnections_peak_gene and overlapPeaksAndTFBS (Default: 36)
+
 `--res`                Clustering resolution
 
 ### Example
