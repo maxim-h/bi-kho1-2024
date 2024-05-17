@@ -42,15 +42,23 @@ run_granpa.R
 
 This is a GRaNPA parser script that takes the `.rds` file from `run_granie.R` as input. For more info on GRaNPA: https://grp-zaugg.embl-community.io/GRaNPA/
 
---grn_rds              Path to GRaNIE rds (Default: granie_output)
---de_data              Path to differential expression data for validation (Default: folder_name)
---de_pval_th           P-value threshold for differential expression (Default: 0.2)
---logFC_th             LogFC threshold for differential expression (Default: 0)
---n_cores              Number of cores (Default: 10)
---importance_tf        Algorithm for finding most important TFs (Default: permutation)
---ml_type              Regression or classification (Default: regression)
---output_folder_granpa Output folder name
---branch               Branch name
+`--grn_rds`              Path to GRaNIE rds (Default: granie_output)
+
+`--de_data`              Path to differential expression data for validation (Default: folder_name)
+
+`--de_pval_th`           P-value threshold for differential expression (Default: 0.2)
+
+`--logFC_th`             LogFC threshold for differential expression (Default: 0)
+
+`--n_cores`              Number of cores (Default: 10)
+
+`--importance_tf`        Algorithm for finding most important TFs (Default: permutation)
+
+`--ml_type`              Regression or classification (Default: regression)
+
+`--output_folder_granpa` Output folder name
+
+`--branch`               Branch name
 
 ### Example
 
