@@ -73,7 +73,7 @@ This snakemake pipeline includes `run_granie.R`, `run_granpa.R` and `summarise_r
  
 ### Example config file
 
-```yaml
+```python
 branches:
 traj1
 de:
