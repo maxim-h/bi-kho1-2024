@@ -92,6 +92,11 @@ This script takes `.rds` files from `run_granpa.R` and corresponding parameters 
 
 `--output_folder` Folder name for output
 
+### Example
+
+```bash
+Rscript summarise_results.R --granpa_rds_list granpa1.rds, granpa2.rds --TF_peak_FDR_list 0.05, 0.1 --peak_gene_FDR_list 0.2, 0.3 --correlation_list pearson, spearman --promoter_range_list 50000, 100000 --tf_database_list database1, database2 --output_folder results
+```
 
 ## Snakemake pipeline
 
