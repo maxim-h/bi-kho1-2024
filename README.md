@@ -100,7 +100,7 @@ Rscript summarise_results.R --granpa_rds_list granpa1.rds, granpa2.rds --TF_peak
 
 ## Snakemake pipeline
 
-This snakemake pipeline includes `run_granie.R`, `run_granpa.R` and `summarise_results.R` to process multiple files with different parameters and creates a heatmap that shows resulting `Rsquared` values. The parameters are provided in `config2.yaml` file.
+This snakemake pipeline includes `run_granie.R`, `run_granpa.R` and `summarise_results.R` to process multiple files with different parameters and creates a heatmap that shows resulting `Rsquared` values. The parameters are provided in `config2.yaml` file. 
  
 
 
