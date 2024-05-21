@@ -38,6 +38,10 @@ p <- add_argument(p, "--importance_tf", help = "Algorithm for finding most impor
 p <- add_argument(p, "--ml_type", help = "Regression or classification", default = "regression")
 p <- add_argument(p, "--output_folder_granpa", help = "Output folder name")
 p <- add_argument(p, "--branch", help = "Branch name")
+p <- add_argument(p, "--correlation_method",  help = "Correlation method in addConnections_peak_gene", default = "pearson")
+p <- add_argument(p, "--promoter_range", help = "Promoter range in addConnections_peak_gene, bp", default = 250000)
+p <- add_argument(p, "--TF_peak_FDR", help = "FDR threshold in filterGRNAndConnectGenes", default = 0.2)
+p <- add_argument(p, "--res", help = "Clustering resolution")
 # Parse the command line arguments
 args <- parse_args(p)
 
@@ -49,6 +53,11 @@ n_cores <- args$n_cores
 importance_tf <- args$importance_tf
 ml_type <- args$ml_type
 output_folder_granpa <- args$output_folder_granpa
+branch <- args$branch
+correlation_method <- args$correlation_method
+TF_peak_FDR <- args$TF_peak_FDR
+peak_gene_FDR <- args$peak_gene_FDR        
+promoter_range <- args$promoter_range
 branch <- args$branch
 
 dir.create(output_folder_granpa)
@@ -86,7 +95,15 @@ granpa_result = GRaNPA::GRaNPA_main_function(DE_data = de_data,
                                              control = "cv",
                                              train_part = 1)
 
+
 GRaNPA::plot_GRaNPA_density(GRaNPA.object = granpa_result, plot_name = "density.pdf", outputFolder = output_folder_granpa, width = 4, height = 4)
 GRaNPA::plot_GRaNPA_scatter(GRaNPA.object = granpa_result, plot_name = "scatter.pdf", outputFolder = output_folder_granpa, width = 4, height = 4) 
 GRaNPA::plot_GRaNPA_TF_imp(GRaNPA.object = granpa_result, plot_name = "TF_imp.pdf", outputFolder = output_folder_granpa, width = 4, height = 4) 
 saveRDS(granpa_result, here(output_folder_granpa, paste(branch, args$de_data, "granpa.rds", sep='_'))) 
+
+res <- paste('res', args$res, sep='')
+corr_method <- paste('cormethod', correlation_method, sep='_')
+tf_peak_fdr <- paste('tf_peak_fdr', TF_peak_FDR, sep='_')
+prom_range <- paste('prom_range', promoter_range, sep='_')
+peak_gene_fdr <- paste('peak_gene_fdr', peak_gene_FDR, sep='_')
+saveRDS(granpa_result, here(output_folder_granpa, paste(branch, res, corr_method, tf_peak_fdr, peak_gene_fdr, prom_range, 'granpa.rds', sep='_')))
