@@ -33,6 +33,7 @@ p <- add_argument(p, "--TF_peak_FDR", help = "FDR threshold in filterGRNAndConne
 p <- add_argument(p, "--peak_gene_FDR", help = "Peak gene FDR threshold in filterGRNAndConnectGenes", default = 0.2)
 p <- add_argument(p, "--n_cores", help = "Number of cores in addConnections_peak_gene and overlapPeaksAndTFBS", default = 36)
 p <- add_argument(p, "--res", help = "Clustering resolution")
+p <- add_argument(p, "--prom_db", help = "Promotor database used")
 
 # Parse the command line arguments
 args <- parse_args(p)
@@ -79,10 +80,11 @@ corr_method <- paste('cormethod', correlation_method, sep='_')
 tf_peak_fdr <- paste('tf-peak-fdr', TF_peak_FDR, sep='_')
 peak_gene_fdr <- paste('peak_gene_fdr', peak_gene_FDR, sep='_')
 prom_range <- paste('prom-range', promoter_range, sep='_')
+prom_db <- paste('prom-db', prom_db, sep='_')
 
 if (nrow(conections.all) == 0) {
   print("Connections are empty.")
-  saveRDS(NULL, here(output_folder, paste(branch, res, corr_method, tf_peak_fdr, peak_gene_fdr, prom_range, 'grn.rds', sep='_')))
+  saveRDS(NULL, here(output_folder, paste(branch, res, corr_method, tf_peak_fdr, peak_gene_fdr, prom_range, prom_db, 'grn.rds', sep='_')))
 } else {
   grn <- generateStatsSummary(grn)
   grn <- build_eGRN_graph(grn)
