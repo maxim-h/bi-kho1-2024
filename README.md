@@ -35,7 +35,7 @@ This is a GRaNIE parser script that takes ATAC-seq, RNA-seq and metadata files a
 ### Example
 
 ```bash
-Rscript run_granie.R --atac data/atac.tsv --rna_seq data/rna_seq_counts.tsv --output_folder results_granie --branch B_cell --res 0.5
+Rscript run_granie.R --meta_data data/metadata.tsv --atac data/atac.tsv --rna_seq data/rna_seq_counts.tsv --output_folder results_granie --branch B_cell --res 0.5
 ```
 
 ## GRaNPA
