@@ -1,6 +1,6 @@
 configfile: 'config.yaml'
 
-branch_list = config['branches'].split(' ')
+branch_list = config['branch'].split(' ')
 de_list = config['de'].split(' ')
 res_list = config['res'].split(' ')
 cormethod_list = config['cormethod'].split(' ')
